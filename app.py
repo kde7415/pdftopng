@@ -3,6 +3,7 @@ from werkzeug.utils import secure_filename
 import os
 import uuid
 import fitz  # PyMuPDF
+import zipfile
 
 app = Flask(__name__)
 
@@ -34,17 +35,30 @@ def convert_pdf():
     file.save(filepath)
 
     try:
-        # PDF 열기
         doc = fitz.open(filepath)
-        page = doc.load_page(0)  # 첫 페이지만 이미지로 변환
-        pix = page.get_pixmap(dpi=200)  # 해상도 조정 가능
+        image_filenames = []
+        zip_id = uuid.uuid4().hex
+        zip_folder = os.path.join(app.config['OUTPUT_FOLDER'], zip_id)
+        os.makedirs(zip_folder, exist_ok=True)
 
-        output_filename = f"{uuid.uuid4().hex}.png"
-        output_path = os.path.join(app.config['OUTPUT_FOLDER'], output_filename)
+        # 모든 페이지를 이미지로 변환
+        for i in range(len(doc)):
+            page = doc.load_page(i)
+            pix = page.get_pixmap(dpi=200)
+            img_filename = f"page_{i + 1}.png"
+            img_path = os.path.join(zip_folder, img_filename)
+            pix.save(img_path)
+            image_filenames.append(img_path)
 
-        pix.save(output_path)
+        # ZIP 파일로 압축
+        zip_filename = f"{zip_id}.zip"
+        zip_path = os.path.join(app.config['OUTPUT_FOLDER'], zip_filename)
+        with zipfile.ZipFile(zip_path, 'w') as zipf:
+            for img_path in image_filenames:
+                arcname = os.path.basename(img_path)
+                zipf.write(img_path, arcname=arcname)
 
-        return jsonify({'download_url': f'/download/{output_filename}'})
+        return jsonify({'download_url': f'/download/{zip_filename}'})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
