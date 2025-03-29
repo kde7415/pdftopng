@@ -1,0 +1,77 @@
+/* 기본 설정 */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Noto Sans KR', sans-serif;
+  background-image: url('https://img1.newsis.com/2024/07/17/NISI20240717_0001605012_web.jpg?rnd=20240717145314');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  color: #fff;
+  backdrop-filter: brightness(0.8);
+}
+
+/* 컨테이너 */
+.container {
+  max-width: 600px;
+  margin: 100px auto;
+  padding: 30px;
+  background-color: rgba(0, 43, 91, 0.85); /* 상산고 교복 느낌의 네이비 컬러 */
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  text-align: center;
+}
+
+/* 제목 */
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+  color: #ffffff;
+}
+
+/* 라벨 */
+.file-label {
+  display: block;
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+}
+
+/* 파일 선택 */
+input[type="file"] {
+  margin-bottom: 20px;
+  padding: 8px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #fff;
+  color: #000;
+}
+
+/* 버튼 스타일 */
+button, #download-link {
+  display: inline-block;
+  padding: 12px 24px;
+  font-size: 1rem;
+  margin-top: 10px;
+  border: none;
+  border-radius: 8px;
+  background-color: #0056b3;
+  color: white;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover, #download-link:hover {
+  background-color: #003f7f;
+}
+
+/* 다운로드 섹션 */
+#download-section {
+  margin-top: 30px;
+}
+
+h2 {
+  margin-bottom: 10px;
+  font-size: 1.3rem;
+}
